@@ -1,2 +1,4 @@
 requests
 python-pptx
+pywin32
+openai
