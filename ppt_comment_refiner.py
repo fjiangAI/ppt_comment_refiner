@@ -106,9 +106,9 @@ class PPTCommentRefiner:
 
 def main():
     parser = argparse.ArgumentParser(description="Refine PowerPoint presentation notes using OpenAI's GPT model.")
-    parser.add_argument("ppt_path", type=str, help="Path to the input PowerPoint file.")
-    parser.add_argument("output_path", type=str, help="Path to save the refined PowerPoint file.")
-    parser.add_argument("api_key", type=str, help="OpenAI API key for authentication.")
+    parser.add_argument("--ppt_path", type=str, help="Path to the input PowerPoint file.")
+    parser.add_argument("--output_path", type=str, help="Path to save the refined PowerPoint file.")
+    parser.add_argument("--api_key", type=str, help="OpenAI API key for authentication.")
 
     args = parser.parse_args()
 
