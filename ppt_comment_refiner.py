@@ -4,13 +4,6 @@ import argparse
 from pptx import Presentation
 from typing import List, Dict
 
-# Constants
-API_ENDPOINT = "https://api.openai.com/v1/chat/completions"
-MODEL_NAME = "gpt-4o"
-HEADERS = {
-    "Content-Type": "application/json"
-}
-
 class PPTCommentRefiner:
     """
     A class to refine comments in a PowerPoint presentation using OpenAI's GPT model.
@@ -21,10 +14,15 @@ class PPTCommentRefiner:
         api_key (str): OpenAI API key for authentication.
     """
 
-    def __init__(self, ppt_path: str, output_path: str, api_key: str):
+    def __init__(self, ppt_path: str, output_path: str, api_key: str, base_url: str):
         self.ppt_path = ppt_path
         self.output_path = output_path
         self.api_key = api_key
+        self.base_url = base_url
+        self.model_name = "gpt-4o"
+        self.headers = {
+    "Content-Type": "application/json"
+}
 
     def extract_notes(self) -> List[Dict[str, str]]:
         presentation = Presentation(self.ppt_path)
@@ -73,18 +71,18 @@ class PPTCommentRefiner:
 
         messages.append({"role": "user", "content": json.dumps({"notes": notes_list})})
 
-        headers = HEADERS.copy()
+        headers = self.headers.copy()
         headers["Authorization"] = f"Bearer {self.api_key}"
 
         data = {
-            "model": MODEL_NAME,
+            "model": self.model_name,
             "messages": messages,
             "functions": [function],
             "function_call": {"name": "refine_notes"}
         }
 
         try:
-            response = requests.post(API_ENDPOINT, headers=headers, json=data)
+            response = requests.post(self.base_url, headers=headers, json=data)
             response.raise_for_status()
             result = response.json()
             function_args = result["choices"][0]["message"]["function_call"]["arguments"]
@@ -109,10 +107,11 @@ def main():
     parser.add_argument("--ppt_path", type=str, help="Path to the input PowerPoint file.")
     parser.add_argument("--output_path", type=str, help="Path to save the refined PowerPoint file.")
     parser.add_argument("--api_key", type=str, help="OpenAI API key for authentication.")
+    parser.add_argument('--base_url', type=str, help='OpenAI API base URL')
 
     args = parser.parse_args()
 
-    refiner = PPTCommentRefiner(args.ppt_path, args.output_path, args.api_key)
+    refiner = PPTCommentRefiner(args.ppt_path, args.output_path, args.api_key, args.base_url)
 
     # Extract notes from the presentation
     notes = refiner.extract_notes()

@@ -3,8 +3,8 @@
 
 import os
 import win32com.client
-import time
 import json
+import time
 from pathlib import Path
 from openai import OpenAI  # Requires openai library version 1.0+
 
@@ -30,6 +30,7 @@ class AudioGenerator:
 
             # Save generated audio to file
             response.stream_to_file(speech_file_path)
+            print(file_name)
 
 class PowerPointHandler:
     def __init__(self, pptx_path):
@@ -86,7 +87,7 @@ class PowerPointHandler:
     def insert_audio(self, mp3_directory):
         if not self.ppt:
             self.open_presentation()
-        time.sleep(5)  # Delay to ensure each operation completes
+        time.sleep(1)  # Delay to ensure each operation completes
 
         mp3_files = [f for f in os.listdir(mp3_directory) if f.endswith('.mp3')]
 
@@ -116,13 +117,13 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description='PowerPoint Audio Automation Tool')
-    parser.add_argument('--pptx_path', type=str, required=True, help='Path to the PowerPoint file')
-    parser.add_argument('--output_pptx_path', type=str, required=True, help='Path to save the updated PowerPoint file')
-    parser.add_argument('--api_key', type=str, required=True, help='OpenAI API key')
-    parser.add_argument('--base_url', type=str, required=True, help='OpenAI API base URL')
-    parser.add_argument('--output_notes_file', type=str, required=True, help='Path to save extracted notes')
-    parser.add_argument('--audio_output_directory', type=str, required=True, help='Directory to save generated audio files')
-    parser.add_argument('--mp3_directory', type=str, required=True, help='Directory containing audio files for insertion')
+    parser.add_argument('--pptx_path', type=str, help='Path to the PowerPoint file')
+    parser.add_argument('--output_pptx_path', type=str, help='Path to save the updated PowerPoint file')
+    parser.add_argument('--api_key', type=str, help='OpenAI API key')
+    parser.add_argument('--base_url', type=str, help='OpenAI API base URL')
+    parser.add_argument('--output_notes_file', type=str, help='Path to save extracted notes')
+    parser.add_argument('--audio_output_directory', type=str, help='Directory to save generated audio files')
+    parser.add_argument('--mp3_directory', type=str, help='Directory containing audio files for insertion')
 
     args = parser.parse_args()
     audio_api_key = args.api_key

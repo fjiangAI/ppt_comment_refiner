@@ -50,10 +50,10 @@ This tool uses command-line arguments to specify input and output files as well 
    First, use the script to extract and enhance your notes:
 
    ```bash
-   python ppt_comment_refiner.py --pptx_path <input.pptx> --output_notes_file <notes.json> --api_key <api_key> --base_url <base_url>
+   python ppt_comment_refiner.py --pptx_path <input.pptx> --output_path <save.pptx> --api_key <api_key> --base_url <base_url>
    ```
 
-   Replace `<input.pptx>` with the path to your original PowerPoint file, `<notes.json>` with the path to save the extracted and refined notes, `<api_key>` with your OpenAI API key, and `<base_url>` with the API base URL.
+   Replace `<input.pptx>` with the path to your original PowerPoint file, `<save.pptx>` with the path to save the refined PowerPoint file, `<api_key>` with your OpenAI API key, and `<base_url>` with the API base URL.
 
    ### Generate Audio from Notes and Add to PPT
    After enhancing the notes, use the `ppt_dubbing.py` script to generate audio from the refined notes and insert them into the PowerPoint slides:
